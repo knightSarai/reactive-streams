@@ -16,7 +16,7 @@ export const MainProvider = (props) => {
           },
           secondary: {
             light: mood.isDarkMood? '#f85f73' : "#4791db",
-            main: mood.isDarkMood?"#f73859" : "#1976d2",
+            main: mood.isDarkMood?"#f73859" : "#283149",
           }
         }
       });

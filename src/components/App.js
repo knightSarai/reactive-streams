@@ -1,8 +1,16 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+import StreamShow from './streams/StreamShow';
+import StreamCreate from './streams/StreamCreate';
+import StreamDelete from './streams/StreamDelete';
+import StreamEdit from './streams/StreamEdit';
+import StreamList from './streams/StreamList';
+
+
 import { MainProvider } from '../context/main.context';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography } from '@material-ui/core/';
+import { Paper, Container } from '@material-ui/core/';
+
 import Nav from './Nav'
 
 import './App.css'
@@ -25,12 +33,19 @@ export default function App() {
             <Paper className={classes.papper}>
             <div className={classes.root}>
                 <Nav/>
-                <Typography variant="h1">
-                    my App
-                </Typography>
+                <Container>
+                    <Switch>
+                        <Route path="/" exact component={StreamList}/>
+                        <Route path="/streams/new" exact component={StreamCreate}/>
+                        <Route path="/streams/edit" exact component={StreamEdit}/>
+                        <Route path="/streams/delete" exact component={StreamDelete}/>
+                        <Route path="/streams/show" exact component={StreamShow}/>
+                    </Switch>
+                </Container> 
             </div>
         </Paper>
         </MainProvider>
         
     )
 }
+

@@ -1,9 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core/';
-import InfoIcon from '@material-ui/icons/Info';
-import HomeIcon from '@material-ui/icons/Home';
+import { Typography, Divider } from '@material-ui/core/';
+import MovieCreationIcon from '@material-ui/icons/MovieCreation';
 
 import {
     Drawer as MUIDrawer,
@@ -15,12 +14,17 @@ import {
 
 
 const useStyles = makeStyles({
-    list: {
-        width: "140px"
-    },
-    h4:{
+    drawerTitle: {
+        marginTop: "1rem",
+        paddingBottom: "0.55rem",
         textAlign: "center",
-        marginTop: "1rem"
+        fontSize: "1.2rem",
+    },
+    list: {
+        width: "180px",
+    },
+    lestItem: {
+        display: "flex"
     }
 })
 
@@ -37,17 +41,11 @@ function Drawer(props) {
     }
     const renderedList = [
         {
-            text: "home",
-            icon: <HomeIcon/>,
+            text: "Streams",
+            icon: <MovieCreationIcon/>,
             onClick: () => {
                 history.push('/')
             }
-        },
-        {
-            text: "about",
-            icon: <InfoIcon/>,
-            onClick: () => {
-                history.push('/about')}
         }
     ]
     return (
@@ -56,15 +54,16 @@ function Drawer(props) {
                 open={DrawerOpen}
                 onClick={onToggleDrawer}
             >
-                <Typography variant="h4" className={classes.h4} color="secondary">
-                    Main
+                <Typography variant="subtitle2" className={classes.drawerTitle} color="secondary">
+                    Reactive Streams
                 </Typography>
+                <Divider/>
                 <List className={classes.list}  >
                     {
-                        renderedList.map((item, index) => {
+                        renderedList.map((item) => {
                             const {text, icon, onClick} = item;
                             return (
-                                <ListItem button key={text} onClick={onClick}>
+                                <ListItem className={classes.listItem} button key={text} onClick={onClick}>
                                     <ListItemIcon >{icon && icon}</ListItemIcon>
                                     <ListItemText  primary={text} />
                                 </ListItem>

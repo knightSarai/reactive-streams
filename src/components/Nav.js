@@ -4,9 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import useToggleDrawer from '../hooks/useToggleState';
 
-import {AppBar, Toolbar, Typography, Button, IconButton, Switch} from '@material-ui/core';
+import {AppBar, Toolbar, Typography, IconButton, Switch} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from './Drawer'
+import GoogleAuth from './GoogleAuth'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -45,10 +47,10 @@ export default function Appbar(props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Main
+              Reactive Streams
             </Typography>
             <Switch checked={isDarkMood} onChange={onSelectChange}/>
-            <Button color="inherit">Login</Button>
+            <GoogleAuth/>
           </Toolbar>
         </AppBar>
     </div>
