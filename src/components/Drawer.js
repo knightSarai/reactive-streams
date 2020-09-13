@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Divider } from '@material-ui/core/';
 import MovieCreationIcon from '@material-ui/icons/MovieCreation';
-
+import QueueIcon from '@material-ui/icons/Queue';
 import {
     Drawer as MUIDrawer,
     List,
@@ -46,7 +46,14 @@ function Drawer(props) {
             onClick: () => {
                 history.push('/')
             }
-        }
+        },
+        {
+            text: "New Stream",
+            icon: <QueueIcon/>,
+            onClick: () => {
+                history.push('/streams/new')
+            }
+        },
     ]
     return (
         <div className="">

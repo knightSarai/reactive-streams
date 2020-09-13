@@ -1,4 +1,6 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import {connect } from 'react-redux';
+import {signIn, signOut} from '../actions';
 import {Button, SvgIcon} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,14 +24,11 @@ function GoogleIcon(props) {
     )
 }
 
-export default class GoogleAuth extends Component{
+class GoogleAuth extends Component{
     constructor(props) {
         super(props);
         this.auth = {};
-        this.state = {
-            isSignedIn: null,
-            userName: ''
-        }
+        /* Methods binding */
         this.onAuthChange = this.onAuthChange.bind(this);
         this.onSignInClick = this.onSignInClick.bind(this);
         this.onSignOutClick = this.onSignOutClick.bind(this);
@@ -42,19 +41,32 @@ export default class GoogleAuth extends Component{
             })
             .then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance();
-                this.setState({ isSignedIn: this.auth.isSignedIn.get() });
-                this.state.isSignedIn && this.setState({ userName:  this.auth.currentUser.get().getBasicProfile().getName()});
+                this.onAuthChange(this.auth.isSignedIn.get());
                 this.auth.isSignedIn.listen(this.onAuthChange);
             })
 
         });
     }
     
-    onAuthChange () {
+    // this function get call with boolean value that indecat if user logged in or not
+    /*onAuthChange () {
         this.setState({isSignedIn: this.auth.isSignedIn.get()});
         this.state.isSignedIn && this.setState({ userName:  this.auth.currentUser.get().getBasicProfile().getName()});
         !this.state.isSignedIn && this.setState({ userName:  ""});
     };
+    so, instead
+    */
+   /* we write this */
+    onAuthChange(isSignedIn) {
+        if (isSignedIn) {
+            this.props.signIn({
+                userId: this.auth.currentUser.get().getBasicProfile().getName(),
+                userName:  this.auth.currentUser.get().getBasicProfile().getName()
+            });
+        } else {
+            this.props.signOut();
+        }
+    }
 
     onSignInClick (){
         this.auth.signIn();
@@ -65,7 +77,7 @@ export default class GoogleAuth extends Component{
     };
 
     renderAuthButton = () => {
-        const {isSignedIn, userName} = this.state;
+        const {isSignedIn, userName} = this.props;
         if (isSignedIn === null) {
             return ''    
         } else if (isSignedIn) {
@@ -73,7 +85,6 @@ export default class GoogleAuth extends Component{
         } else {
             return <Button color="inherit" onClick={this.onSignInClick}><GoogleIcon />Sign in</Button>
         }
-        
     }
 
     render() {
@@ -84,4 +95,11 @@ export default class GoogleAuth extends Component{
     
 }
 
+const mapStateToProps = (state) => {
+    return {
+        isSignedIn: state.auth.isSignedIn,
+        userName: state.auth.userName
+    }
+}
 
+export default connect (mapStateToProps, {signIn, signOut})(GoogleAuth);
